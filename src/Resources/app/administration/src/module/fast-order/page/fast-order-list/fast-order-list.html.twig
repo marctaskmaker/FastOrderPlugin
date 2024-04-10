@@ -1,0 +1,89 @@
+{% block fast_order_list %}
+    <sw-page class="fast-order-list">
+
+        {% block fast_order_list_content %}
+        <template #content>
+            {% block fast_order_list_content_slot %}
+            <div class="fast-order-list-content">
+                {% block fast_order_list_grid %}
+                <sw-data-grid
+                    ref="fastOrderGrid"
+                    identifier="fast-order-list"
+                    :data-source="fastOrders"
+                    :columns="fastOrderColumns"
+                    :is-loading="isLoading"
+                    :full-page="true"
+                >
+
+                {% block fast_order_list_grid_columns %}
+
+                    {% block fast_order_list_grid_columns_actions %}
+                    <template #actions="{ item }">
+
+                        {% block fast_order_list_grid_columns_actions_delete %}
+                        <sw-context-menu-item
+                            variant="danger"
+                            @click="onDelete(item.id)"
+                        >
+                            {{ $tc('fast-order.list.contextMenuDelete') }}
+                        </sw-context-menu-item>
+                        {% endblock %}
+
+                    </template>
+                    {% endblock %}
+
+                    {% block fast_order_list_grid_action_modals %}
+                    <template #action-modals="{ item }">
+                        {% block fast_order_list_delete_modal %}
+                        <sw-modal
+                            v-if="showDeleteModal === item.id"
+                            :title="$tc('global.default.warning')"
+                            variant="small"
+                            @modal-close="onCloseDeleteModal"
+                        >
+                            {% block fast_order_list_delete_modal_confirm_delete_text %}
+                            <p class="fast-order-list__confirm-delete-text">
+                                {{ $tc('fast-order.list.textDeleteConfirm', 0, { article: `${item.article}` }) }}
+                            </p>
+                            {% endblock %}
+
+                            {% block fast_order_list_delete_modal_footer %}
+                            <template #modal-footer>
+                                {% block sw_order_list_delete_modal_cancel %}
+                                <sw-button
+                                    size="small"
+                                    @click="onCloseDeleteModal"
+                                >
+                                    {{ $tc('fast-order.list.buttonCancel') }}
+                                </sw-button>
+                                {% endblock %}
+
+                                {% block fast_order_list_delete_modal_confirm %}
+                                <sw-button
+                                    variant="danger"
+                                    size="small"
+                                    @click="onConfirmDelete(item.id)"
+                                >
+                                    {{ $tc('fast-order.list.buttonDelete') }}
+                                </sw-button>
+                                {% endblock %}
+                            </template>
+                            {% endblock %}
+                        </sw-modal>
+                        {% endblock %}
+                    </template>
+                    {% endblock %}
+
+                {% endblock %}
+
+                </sw-data-grid>
+                {% endblock %}
+            </div>
+            {% endblock %}
+
+        </template>
+        {% endblock %}
+
+    </sw-page>
+{% endblock %}
+

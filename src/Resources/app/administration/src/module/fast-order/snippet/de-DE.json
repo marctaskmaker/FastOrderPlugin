@@ -1,0 +1,14 @@
+{
+    "fast-order": {
+        "general": {
+            "mainMenuItemGeneral": "My custom module",
+            "descriptionTextModule": "Manage this custom module here"
+        },
+        "list": {
+            "contextMenuDelete": "Löschen",
+            "buttonDelete": "Löschen",
+            "buttonCancel": "Abbrechen",
+            "textDeleteConfirm": "Möchten Sie diese Bestellung ({article}) wirklich löschen?"
+        }
+    }
+}
