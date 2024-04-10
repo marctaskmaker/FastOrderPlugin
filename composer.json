@@ -1,0 +1,27 @@
+{
+    "name": "fast-order-plugin/fast-order-plugin",
+    "description": "fast-order-plugin/fast-order-plugin",
+    "type": "shopware-platform-plugin",
+    "version": "1.0.0",
+    "license": "MIT",
+    "require": {
+        "shopware/core": "~6.6.0"
+    },
+    "extra": {
+        "shopware-plugin-class": "FastOrderPlugin\\FastOrderPlugin",
+        "label": {
+            "de-DE": "Fast Order Plugin",
+            "en-GB": "Fast Order Plugin"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "FastOrderPlugin\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "FastOrderPlugin\\Tests\\": "tests/"
+        }
+    }
+}

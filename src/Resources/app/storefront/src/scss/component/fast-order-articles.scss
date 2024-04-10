@@ -1,0 +1,29 @@
+#fast-order-articles {
+    z-index: 1000;
+    position: relative;
+    box-shadow: 0 10px 25px -15px #000;
+
+    ul {
+        top: 0;
+        left: 0;
+        margin: 0;
+        padding: 1rem;
+        width: 100%;
+        list-style: none;
+        position: absolute;
+        border: thin solid #A092F0;
+        background-color: #FFF;
+
+        li {
+            width: 100%;
+            background: #FFF;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            border-bottom: thin solid #A092F0;
+        }
+
+        li:last-child {
+            border-bottom: none;
+        }
+    }
+}

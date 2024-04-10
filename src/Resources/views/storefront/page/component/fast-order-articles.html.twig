@@ -1,0 +1,21 @@
+{% block fast_order_articles %}
+    {% if articles %}
+    <div id="fast-order-articles" class="search-suggest"">
+        <ul class="search-suggest-product">
+            {% for article in articles %}
+                <li>
+                    <a href="#" class="search-suggest-product-link fast-order-link"
+                       data-id="{{ article.productNumber }}" data-price="{{ article.price }}">
+                        <div class="row align-items-center no-gutters">
+                            <div class="col search-suggest-product-name">{{ article.productNumber }}</div>
+                            <div class="col-auto search-suggest-product-price">
+                                <span class="search-suggest-product-price">{{ article.price }}</span>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+{% endblock %}
