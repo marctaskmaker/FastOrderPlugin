@@ -11,18 +11,18 @@ class FastOrderEntity extends Entity
 {
     use EntityIdTrait;
 
-    protected ?string $article;
+    protected ?string $product;
 
     protected int $quantity;
 
-    public function getArticle(): ?string
+    public function getProduct(): ?string
     {
-        return $this->article;
+        return $this->product;
     }
 
-    public function setArticle(?string $article): void
+    public function setProduct(?string $product): void
     {
-        $this->article = $article;
+        $this->product = $product;
     }
 
     public function getQuantity(): ?string

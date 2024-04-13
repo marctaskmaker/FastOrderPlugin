@@ -19,7 +19,7 @@ class Migration1712223703CreateFastOrderTable extends MigrationStep
         $sql = <<<'SQL'
         CREATE TABLE IF NOT EXISTS `fast_order` (
             `id` BINARY(16) NOT NULL,
-            `article` VARCHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+            `product` VARCHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL,
             `quantity` INT NOT NULL,
             `session` VARCHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL,
             `created_at` DATETIME(3) NOT NULL,

@@ -1,0 +1,28 @@
+{% block fast_order_nav %}
+<div class="fast-order-nav">
+    <nav class="nav main-navigation-menu">
+
+        <a class="nav-link main-navigation-link fast-order-tab-button
+            {{ (fastOrderPage == "index") ? 'active' : ''}}"
+            href="{{ path('frontend.fast-order.index') }}">
+
+            <div class="main-navigation-link-text">
+                <span><sw-icon name="regular-circle-upload" /> Enter articles<span>
+            </div>
+
+        </a>
+
+        <a class="nav-link main-navigation-link fast-order-tab-button
+            {{ (fastOrderPage == "upload") ? 'active' : ''}}"
+            href="{{ path('frontend.fast-order.upload') }}">
+
+            <div class="main-navigation-link-text">
+                <span>Upload (CSV)</span>
+            </div>
+
+        </a>
+
+    </nav>
+</div>
+{% endblock %}
+

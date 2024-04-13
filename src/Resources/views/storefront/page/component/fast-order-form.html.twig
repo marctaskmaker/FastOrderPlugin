@@ -1,0 +1,52 @@
+{% block fast_order_form %}
+<div class="row">
+    <div class="col-9 mb-3">
+    Please enter the articles and quantities you want to order. The availability of the article is checked and displayed direcly while typing.
+    You can enter all data completely via keyboard. In the result list, you can navigate through the results with the arrow up and arrow down key.
+    With enter key, you can select the correct entry.
+    </div>
+</div>
+<form action="{{ path('frontend.fast-order.add-to-cart') }}" method="post" id="fast-order-form">
+    {% block data_fast_order %}
+    <div data-fast-order-plugin="true">
+
+        <div class="row">
+            <div class="col-6 fw-bold">
+                Article
+                <hr>
+            </div>
+            <div class="col-3 fw-bold">
+                Quantity
+                <hr>
+            </div>
+        </div>
+
+        {% for i in 1..10 %}
+        <div class="row">
+            <div class="col-6 mb-3">
+                <input type="text" name="products[{{i}}][number]" class="form-control fast-order-input-article" data-price="" autocomplete="off" placeholder="Search article...">
+                <div class="fast-order-completion"></div>
+            </div>
+            <div class="col-3 mb-3">
+                <input type="text" name="products[{{i}}][quantity]" class="form-control fast-order-input-quantity" autocomplete="off" placeholder="Quantity">
+            </div>
+        </div>
+        {% endfor %}
+
+        <div class="row">
+            <div class="col-9 mb-3 text-end">
+                Total amount:
+                <span class="fw-bold">{{ currency }}</span>
+                <span class="fw-bold" id="totalPrice">0.00</span>
+            </div>
+        </div>
+
+        <div>
+            <input type="submit" value="Add to shopping cart" class="btn btn-primary">
+        </div>
+
+    </div>
+    {% endblock %}
+
+</form>
+{% endblock %}

@@ -1,17 +1,54 @@
 {% block fast_order_articles %}
     {% if articles %}
-    <div id="fast-order-articles" class="search-suggest"">
-        <ul class="search-suggest-product">
+    <div id="fast-order-articles">
+        <ul>
             {% for article in articles %}
                 <li>
-                    <a href="#" class="search-suggest-product-link fast-order-link"
-                       data-id="{{ article.productNumber }}" data-price="{{ article.price }}">
-                        <div class="row align-items-center no-gutters">
-                            <div class="col search-suggest-product-name">{{ article.productNumber }}</div>
-                            <div class="col-auto search-suggest-product-price">
-                                <span class="search-suggest-product-price">{{ article.price }}</span>
+                    <a href="#" class="fast-order-link"
+                       data-id="{{ article.number }}" data-price="{{ article.price }}">
+
+                        <div class="row">
+
+                            <div class="col-2 mt-2 mb-2">
+                                <img src="{{ article.media.url }}" class="img-fluid img-thumbnail " alt="" />
                             </div>
+
+                            <div class="col-7 mt-2 mb-2">
+
+                                {% if article.name %}
+                                <div class="row">
+                                   <div class="col-auto">
+                                        <span class="fw-bold">{{ article.name }}</span>
+                                   </div>
+                                </div>
+                                {% endif %}
+
+                                <div class="row">
+                                   <div class="col-auto">
+                                       <span>Product number: </span>{{ article.number }}
+                                   </div>
+                                </div>
+
+                                {% if article.options %}
+                                <div class="row">
+                                   <div class="col-auto">
+                                        {% for option in article.options %}
+                                            {{ option.name }}
+                                        {% endfor %}
+                                   </div>
+                                </div>
+                                {% endif %}
+
+                                <div class="row">
+                                    <div class="col-auto">
+                                        <span>{{ currency }}</span>{{ article.price }}
+                                    </div>
+                                </div>
+
+                            </div>
+
                         </div>
+
                     </a>
                 </li>
             {% endfor %}

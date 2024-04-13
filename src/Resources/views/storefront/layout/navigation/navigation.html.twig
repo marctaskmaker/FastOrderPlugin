@@ -4,7 +4,8 @@
     {{ parent() }}
 
     {% block  layout_main_navigation_menu_item_after %}
-        <a class="nav-link main-navigation-link {{ (fastOrderPage is defined) ? 'active' : '' }}"
+        <a class="nav-link main-navigation-link
+           {{ (fastOrderPage is defined) ? 'active' : '' }}"
            href="{{ path('frontend.fast-order.index') }}"
            itemprop="url"
            title="{{ 'Fast Order'|striptags }}">

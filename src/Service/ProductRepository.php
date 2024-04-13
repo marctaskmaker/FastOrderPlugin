@@ -10,6 +10,7 @@ use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\ContainsFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\RangeFilter;
 
 class ProductRepository
 {
@@ -23,8 +24,13 @@ class ProductRepository
     public function searchAvailableProducts(Context $context, string $search): ProductCollection
     {
         $criteria = (new Criteria())
+            ->addFilter(new ContainsFilter('name', $search))
             ->addFilter(new EqualsFilter('active', true))
-            ->addFilter(new ContainsFilter('productNumber', $search))
+            ->addFilter(new RangeFilter('stock', [RangeFilter::GT => 0]))
+            ->addAssociation('cover.media')
+            ->addAssociation('media.media')
+            ->addAssociation('properties')
+            ->addAssociation('options')
             ->setLimit(5);
 
         return $this->productRepository->search($criteria, $context)->getEntities();

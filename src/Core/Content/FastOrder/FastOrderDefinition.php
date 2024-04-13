@@ -37,7 +37,7 @@ class FastOrderDefinition extends EntityDefinition
         return new FieldCollection(
             [
                 (new IdField('id', 'id'))->addFlags(new Required(), new PrimaryKey()),
-                (new StringField('article', 'article'))->addFlags(new Required()),
+                (new StringField('product', 'product'))->addFlags(new Required()),
                 (new IntField('quantity', 'quantity'))->addFlags(new Required()),
                 (new StringField('session', 'session'))->addFlags(new Required()),
                 (new DateTimeField('created_at', 'created_at'))->addFlags(new Required()),

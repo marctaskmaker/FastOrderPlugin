@@ -1,0 +1,40 @@
+{% block fast_order_upload %}
+<div class="row">
+    <div class="col-9 mb-3">
+        Here you can upload a list of articles and quantities. Please use a csv-file with char <span class="fw-bold text-danger">;</span> as delimiter.
+    </div>
+    <div class="col-9 mb-3">
+        <span class="fw-bold">Attention: </span>
+        <span>
+            The shopping list will be completely overwritten after uploading the file.
+            Please use the download function to save your list. You can upload the file later and continue your work with it. You can use a downloaded file as template for new lists.
+        </span>
+    </div>
+</div>
+
+<form action="" method="post" id="fast-order-upload-form">
+        <div class="row">
+            <div class="col-4">
+                <label>Select field to process*</label>
+            </div>
+            <div class="col-5">
+                <label for="file">Choose file*</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4 mb-3">
+                <select class="form-control">
+                    <option></option>
+                </select>
+            </div>
+            <div class="col-5 mb-3">
+                <input type="file" class="form-control" name="file" accept=".csv">
+            </div>
+        </div>
+
+        <div>
+            <input type="submit" value="Upload file" class="btn btn-primary">
+        </div>
+</form>
+
+{% endblock %}

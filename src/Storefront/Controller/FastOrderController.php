@@ -35,12 +35,27 @@ class FastOrderController extends StorefrontController
     {
         return $this->renderStorefront('@FastOrderPlugin/storefront/page/fast-order.html.twig', [
             'currency' => $salesContext->getCurrency()->getSymbol(),
-            'fastOrderPage' => 'active',
+            'fastOrderPage' => 'index',
+            'fastOrderContent' => '@FastOrderPlugin/storefront/page/component/fast-order-form.html.twig',
         ]);
     }
 
     #[Route(
-        path: '/fast-order/articles/{id}',
+        path: '/fast-order/upload',
+        name: 'frontend.fast-order.upload',
+        methods: ['GET']
+    )]
+    public function showFastOrderUpload(Request $request, SalesChannelContext $salesContext): Response
+    {
+        return $this->renderStorefront('@FastOrderPlugin/storefront/page/fast-order.html.twig', [
+            'currency' => $salesContext->getCurrency()->getSymbol(),
+            'fastOrderPage' => 'upload',
+            'fastOrderContent' => '@FastOrderPlugin/storefront/page/component/fast-order-upload.html.twig',
+        ]);
+    }
+
+    #[Route(
+        path: '/fast-order/articles/{name}',
         name: 'frontend.fast-order.articles',
         methods: ['GET'],
         defaults: ['XmlHttpRequest' => 'true']
@@ -49,23 +64,29 @@ class FastOrderController extends StorefrontController
     {
         $articles = [];
 
-        $id = $request->attributes->getAlnum('id');
+        $name = $request->attributes->getAlnum('name');
 
         $productRepository = new ProductRepository($this->container->get('product.repository'));
 
-        $products = $productRepository->searchAvailableProducts($context, $id);
+        $products = $productRepository->searchAvailableProducts($context, $name);
 
         foreach ($products as $product) {
             $price = $product->getPrice()->getCurrencyPrice($salesContext->getCurrency()->getId());
+
             $articles[] = [
-                'productNumber' => $product->getProductNumber(),
+                'name' => $product->getName(),
+                'number' => $product->getProductNumber(),
                 'stock' => $product->getStock(),
+                'options' => $product->getOptions(),
+                'media' => $product->getCover()->getMedia(),
                 'price' => $price->getGross(),
             ];
+
         }
 
         return $this->renderStorefront('@FastOrderPlugin/storefront/page/component/fast-order-articles.html.twig', [
             'articles' => $articles,
+            'currency' => $salesContext->getCurrency()->getSymbol(),
         ]);
     }
 
@@ -84,7 +105,7 @@ class FastOrderController extends StorefrontController
         $lineItem = [];
 
         foreach ($products as $product) {
-            if (! empty($product['article']) && ! empty($product['quantity'])) {
+            if (! empty($product['number']) && ! empty($product['quantity'])) {
 
                 $session = $salesContext->getToken();
 
@@ -93,7 +114,7 @@ class FastOrderController extends StorefrontController
                     ->format(Defaults::STORAGE_DATE_TIME_FORMAT);
 
                 $fastOrderItem = [
-                    'article' => $product['article'],
+                    'product' => $product['number'],
                     'quantity' => intval($product['quantity']),
                     'session' => $session,
                     'created_at' => $currentDateTime,
@@ -104,7 +125,7 @@ class FastOrderController extends StorefrontController
 
                 $lineItem[] = $fastOrderProcessor->createFastOrderLine(
                     [
-                        'referencedId' => $product['article'],
+                        'referencedId' => $product['number'],
                         'quantity' => intval($product['quantity']),
                     ], $salesContext,
                 );
