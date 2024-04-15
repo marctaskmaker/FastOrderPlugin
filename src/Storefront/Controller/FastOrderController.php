@@ -55,6 +55,16 @@ class FastOrderController extends StorefrontController
     }
 
     #[Route(
+        path: '/fast-order/upload-post',
+        name: 'frontend.fast-order.upload-post',
+        methods: ['POST']
+    )]
+    public function uploadPost(Request $request, SalesChannelContext $salesContext, Context $context, Cart $cart): Response
+    {
+        return $this->redirectToRoute('frontend.checkout.cart.page');
+    }
+
+    #[Route(
         path: '/fast-order/articles/{name}',
         name: 'frontend.fast-order.articles',
         methods: ['GET'],
