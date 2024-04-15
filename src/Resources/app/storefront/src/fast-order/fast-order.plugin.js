@@ -33,15 +33,25 @@ export default class FastOrderPlugin extends Plugin {
     const events = ["input", "focusin"];
     const inputArticle = document.querySelectorAll(".fast-order-input-article");
     for (let i = 0; i < inputArticle.length; i++) {
+      const inputCompletion = inputArticle[i].nextElementSibling;
+
       for (let ev = 0; ev < events.length; ev++) {
         inputArticle[i].addEventListener(events[ev], (event) => {
-          inputArticle[i].setAttribute("data-price", "");
-          this.calculateTotal();
+          if (events[ev] == "input") {
+            inputArticle[i].setAttribute("data-price", "");
+
+            inputCompletion.nextElementSibling.innerHTML = "";
+            inputCompletion.nextElementSibling.style.display = "none";
+
+            this.calculateTotal();
+          }
 
           const searchValue = event.target.value.trim();
           if (searchValue == "") {
-            inputArticle[i].nextElementSibling.innerHTML = "";
-            inputArticle[i].nextElementSibling.style.display = "none";
+            inputCompletion.innerHTML = "";
+            inputCompletion.style.display = "none";
+            inputCompletion.nextElementSibling.innerHTML = "";
+            inputCompletion.nextElementSibling.style.display = "none";
           } else {
             this._client.get(
               "/fast-order/articles/" + encodeURIComponent(searchValue),
@@ -66,17 +76,23 @@ export default class FastOrderPlugin extends Plugin {
 
   handleData(content) {
     const input = document.activeElement;
-    input.nextElementSibling.innerHTML = content;
-    input.nextElementSibling.style.display = "block";
+    const inputCompletion = input.nextElementSibling;
+
+    inputCompletion.innerHTML = content;
+    inputCompletion.style.display = "block";
 
     const links = document.querySelectorAll(".fast-order-link");
     for (let i = 0; i < links.length; i++) {
       links[i].addEventListener("click", (event) => {
         const dataId = links[i].getAttribute("data-id");
+        const dataName = links[i].getAttribute("data-name");
         const dataPrice = links[i].getAttribute("data-price");
 
         input.value = dataId;
         input.setAttribute("data-price", dataPrice);
+
+        inputCompletion.nextElementSibling.innerHTML = dataName;
+        inputCompletion.nextElementSibling.style.display = "block";
 
         this.calculateTotal();
       });
@@ -102,12 +118,12 @@ export default class FastOrderPlugin extends Plugin {
         let quantity = parseInt(inputQuantity[i].value);
         let price = parseFloat(inputArticle[i].getAttribute("data-price"));
         let totalProduct = price * quantity;
-        inputQuantity[i].nextElementSibling.style.display = "block";
         totalProductDisplay[i].innerHTML = totalProduct.toFixed(2);
+        inputQuantity[i].nextElementSibling.style.display = "block";
         total = total + totalProduct;
       } else {
-        inputQuantity[i].nextElementSibling.style.display = "none";
         totalProductDisplay[i].innerHTML = "";
+        inputQuantity[i].nextElementSibling.style.display = "none";
       }
     }
 

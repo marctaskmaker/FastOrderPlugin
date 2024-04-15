@@ -26,10 +26,11 @@
             <div class="col-6 mb-3">
                 <input type="text" name="products[{{i}}][number]" class="form-control fast-order-input-article" data-price="" autocomplete="off" placeholder="Search article...">
                 <div class="fast-order-completion"></div>
+                <div class="fast-order-product-name fw-bold mt-2 d-none"></div>
             </div>
             <div class="col-3 mb-3">
                 <input type="text" name="products[{{i}}][quantity]" class="form-control fast-order-input-quantity" autocomplete="off" placeholder="Quantity">
-                <div class="fast-order-product-total text-end d-none">
+                <div class="fast-order-product-total mt-2 text-end d-none">
                     <span class="fw-bold">{{ currency }}</span>
                     <span class="fast-order-product-total-price fw-bold">0.00</span>
                 </div>

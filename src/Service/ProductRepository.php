@@ -30,6 +30,7 @@ class ProductRepository
             ->addAssociation('cover.media')
             ->addAssociation('media.media')
             ->addAssociation('properties')
+            ->addAssociation('description')
             ->addAssociation('options')
             ->setLimit(5);
 

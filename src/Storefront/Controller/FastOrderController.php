@@ -74,24 +74,30 @@ class FastOrderController extends StorefrontController
     {
         $articles = [];
 
-        $name = $request->attributes->getAlnum('name');
+        $search = $request->attributes->getAlnum('name');
 
         $productRepository = new ProductRepository($this->container->get('product.repository'));
 
-        $products = $productRepository->searchAvailableProducts($context, $name);
+        $products = $productRepository->searchAvailableProducts($context, $search);
 
         foreach ($products as $product) {
             $price = $product->getPrice()->getCurrencyPrice($salesContext->getCurrency()->getId());
 
+            $name = $product->getName();
+            $translated = $product->getTranslated();
+
+            if ($translated) {
+                $name = $translated['name'];
+            }
+
             $articles[] = [
-                'name' => $product->getName(),
+                'name' => $name,
                 'number' => $product->getProductNumber(),
                 'stock' => $product->getStock(),
                 'options' => $product->getOptions(),
                 'media' => $product->getCover()->getMedia(),
                 'price' => $price->getGross(),
             ];
-
         }
 
         return $this->renderStorefront('@FastOrderPlugin/storefront/page/component/fast-order-articles.html.twig', [

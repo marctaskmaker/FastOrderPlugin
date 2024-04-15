@@ -5,7 +5,7 @@
             {% for article in articles %}
                 <li>
                     <a href="#" class="fast-order-link"
-                       data-id="{{ article.number }}" data-price="{{ article.price }}">
+                       data-id="{{ article.number }}" data-name="{{ article.name }}" data-price="{{ article.price }}">
 
                         <div class="row">
 
@@ -15,13 +15,13 @@
 
                             <div class="col-7 mt-2 mb-2">
 
-                                {% if article.name %}
                                 <div class="row">
                                    <div class="col-auto">
-                                        <span class="fw-bold">{{ article.name }}</span>
+                                        <span class="fw-bold">
+                                        {{ article.name }}
+                                        </span>
                                    </div>
                                 </div>
-                                {% endif %}
 
                                 <div class="row">
                                    <div class="col-auto">
