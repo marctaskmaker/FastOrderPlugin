@@ -40,8 +40,9 @@ class FastOrderDefinition extends EntityDefinition
                 (new StringField('product', 'product'))->addFlags(new Required()),
                 (new IntField('quantity', 'quantity'))->addFlags(new Required()),
                 (new StringField('session', 'session'))->addFlags(new Required()),
+                (new StringField('comment', 'comment')),
                 (new DateTimeField('created_at', 'created_at'))->addFlags(new Required()),
-                (new DateTimeField('updated_at', 'updated_at'))->addFlags(new Required()),
+                (new DateTimeField('updated_at', 'updated_at')),
             ]
         );
     }

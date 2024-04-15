@@ -17,6 +17,7 @@ Component.register("fast-order-list", {
         { property: "session", label: "Session" },
         { property: "created_at", label: "Created" },
         { property: "updated_at", label: "Updated" },
+        { property: "comment", label: "Comment" },
       ],
       isLoading: false,
       showDeleteModal: false,

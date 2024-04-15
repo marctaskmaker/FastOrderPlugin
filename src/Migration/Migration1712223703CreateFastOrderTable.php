@@ -22,8 +22,9 @@ class Migration1712223703CreateFastOrderTable extends MigrationStep
             `product` VARCHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL,
             `quantity` INT NOT NULL,
             `session` VARCHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+            `comment` VARCHAR(255) COLLATE utf8mb4_unicode_ci,
             `created_at` DATETIME(3) NOT NULL,
-            `updated_at` DATETIME(3) NOT NULL,
+            `updated_at` DATETIME(3),
             PRIMARY KEY (`id`)
         )
             ENGINE = InnoDB

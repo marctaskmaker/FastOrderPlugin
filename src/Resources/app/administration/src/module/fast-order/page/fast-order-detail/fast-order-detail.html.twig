@@ -1,0 +1,56 @@
+{% block fast_order_detail %}
+    <sw-page class="fast-order-detail">
+
+    {% block fast_order_detail_smart_bar_actions %}
+    <template #smart-bar-actions>
+
+        {% block fast_order_detail_smart_bar_actions_cancel %}
+        <sw-button
+            :disabled="isLoading"
+            @click="onCancel"
+        >
+            {{ $tc('fast-order.detail.buttonCancel') }}
+        </sw-button>
+        {% endblock %}
+
+        {% block fast_order_detail_smart_bar_actions_save %}
+        <sw-button-process
+            :is-loading="isLoading"
+            :process-success="isSaveSuccessful"
+            variant="primary"
+            @update:process-success="saveFinish"
+            @click.prevent="onSave"
+        >
+            {{ $tc('fast-order.detail.buttonSave') }}
+        </sw-button-process>
+        {% endblock %}
+
+    </template>
+    {% endblock %}
+
+    {% block fast_order_detail_content %}
+    <template #content>
+
+        <sw-card-view>
+            {% block fast_order_detail_content_view %}
+            <sw-card title="Fast Order Information" large>
+                <sw-container>
+
+                {% block fast_order_detail_comment_field %}
+                <sw-text-field
+                    v-model:value="fastOrder.comment"
+                    label="Comment"
+                />
+                {% endblock %}
+
+                </sw-container>
+
+            </sw-card>
+            {% endblock %}
+        </sw-card-view>
+
+    </template>
+    {% endblock %}
+
+    </sw-page>
+{% endblock %}

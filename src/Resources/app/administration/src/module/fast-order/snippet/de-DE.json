@@ -5,10 +5,17 @@
       "descriptionTextModule": "Fast Order"
     },
     "list": {
+      "contextMenuEdit": "Bearbeiten",
       "contextMenuDelete": "Löschen",
       "buttonDelete": "Löschen",
       "buttonCancel": "Abbrechen",
       "textDeleteConfirm": "Möchten Sie diese Bestellung ({product}) wirklich löschen?"
+    },
+    "detail": {
+      "buttonCancel": "Abbrechen",
+      "buttonSave": "Speichern",
+      "messageSaveError": "Kommentar konnte nicht gespeichert werden.",
+      "messageSaveSuccess": "Kommentar wurde erfolgreich gespeichert."
     }
   }
 }

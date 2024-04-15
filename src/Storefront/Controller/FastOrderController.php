@@ -118,7 +118,7 @@ class FastOrderController extends StorefrontController
                     'quantity' => intval($product['quantity']),
                     'session' => $session,
                     'created_at' => $currentDateTime,
-                    'updated_at' => $currentDateTime,
+                    /* 'updated_at' => $currentDateTime, */
                 ];
 
                 $fastOrderRepository->create([$fastOrderItem], $context);

@@ -5,10 +5,17 @@
       "descriptionTextModule": "Fast Order"
     },
     "list": {
+      "contextMenuEdit": "Edit",
       "contextMenuDelete": "Delete",
       "buttonDelete": "Delete",
       "buttonCancel": "Cancel",
       "textDeleteConfirm": "Do you really want to delete this order ({product})?"
+    },
+    "detail": {
+      "buttonCancel": "Cancel",
+      "buttonSave": "Save",
+      "messageSaveError": "Comment could not be saved.",
+      "messageSaveSuccess": "Comment has been saved."
     }
   }
 }

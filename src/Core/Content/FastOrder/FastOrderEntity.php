@@ -15,6 +15,8 @@ class FastOrderEntity extends Entity
 
     protected int $quantity;
 
+    protected ?string $comment;
+
     public function getProduct(): ?string
     {
         return $this->product;
@@ -33,5 +35,15 @@ class FastOrderEntity extends Entity
     public function setQuantity(int $quantity): void
     {
         $this->quantity = $quantity;
+    }
+
+    public function getComment(): ?string
+    {
+        return $this->comment;
+    }
+
+    public function setComment(?string $comment): void
+    {
+        $this->comment = $comment;
     }
 }

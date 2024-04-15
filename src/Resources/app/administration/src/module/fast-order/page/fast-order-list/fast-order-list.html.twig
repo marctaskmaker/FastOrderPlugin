@@ -20,11 +20,14 @@
                     {% block fast_order_list_grid_columns_actions %}
                     <template #actions="{ item }">
 
+                        {% block fast_order_list_grid_columns_actions_detail %}
+                        <sw-context-menu-item :router-link="{ name: 'fast.order.detail', params: { id: item.id } }">
+                            {{ $tc('fast-order.list.contextMenuEdit') }}
+                        </sw-context-menu-item>
+                        {% endblock %}
+
                         {% block fast_order_list_grid_columns_actions_delete %}
-                        <sw-context-menu-item
-                            variant="danger"
-                            @click="onDelete(item.id)"
-                        >
+                        <sw-context-menu-item variant="danger" @click="onDelete(item.id)">
                             {{ $tc('fast-order.list.contextMenuDelete') }}
                         </sw-context-menu-item>
                         {% endblock %}
