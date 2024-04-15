@@ -19,18 +19,6 @@ export default class FastOrderPlugin extends Plugin {
     this.quantityEvents();
   }
 
-  hideInactive(active, tabButtons, tabPanels) {
-    for (let i = 0; i < tabButtons.length; i++) {
-      if (i == active) {
-        tabButtons[i].classList.add("active");
-        tabPanels[i].style.display = "inline";
-      } else {
-        tabButtons[i].classList.remove("active");
-        tabPanels[i].style.display = "none";
-      }
-    }
-  }
-
   completionEvent() {
     const completion = document.querySelectorAll(".fast-order-completion");
     document.body.addEventListener("click", (event) => {
@@ -102,6 +90,10 @@ export default class FastOrderPlugin extends Plugin {
       ".fast-order-input-quantity",
     );
 
+    const totalProductDisplay = document.querySelectorAll(
+      ".fast-order-product-total-price",
+    );
+
     for (let i = 0; i < inputArticle.length; i++) {
       if (
         inputArticle[i].getAttribute("data-price") &&
@@ -109,7 +101,13 @@ export default class FastOrderPlugin extends Plugin {
       ) {
         let quantity = parseInt(inputQuantity[i].value);
         let price = parseFloat(inputArticle[i].getAttribute("data-price"));
-        total = total + price * quantity;
+        let totalProduct = price * quantity;
+        inputQuantity[i].nextElementSibling.style.display = "block";
+        totalProductDisplay[i].innerHTML = totalProduct.toFixed(2);
+        total = total + totalProduct;
+      } else {
+        inputQuantity[i].nextElementSibling.style.display = "none";
+        totalProductDisplay[i].innerHTML = "";
       }
     }
 
