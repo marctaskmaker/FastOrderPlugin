@@ -13,6 +13,7 @@
             <call method="setTwig">
                 <argument type="service" id="twig"/>
             </call>
+            <argument type="service" id="Shopware\Core\Checkout\Cart\LineItemFactoryRegistry"/>
             <argument type="service" id="Shopware\Core\Checkout\Cart\SalesChannel\CartService"/>
         </service>
 
