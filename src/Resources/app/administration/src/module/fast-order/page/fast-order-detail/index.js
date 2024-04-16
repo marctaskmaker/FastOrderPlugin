@@ -8,6 +8,8 @@ Component.register("fast-order-detail", {
 
   inject: ["repositoryFactory"],
 
+  mixins: [Mixin.getByName("notification")],
+
   props: {
     fastOrderId: {
       type: String,
