@@ -15,13 +15,14 @@
             </call>
             <argument type="service" id="Shopware\Core\Checkout\Cart\LineItemFactoryRegistry"/>
             <argument type="service" id="Shopware\Core\Checkout\Cart\SalesChannel\CartService"/>
+            <argument type="service" id="FastOrderPlugin\Service\ProductService"/>
         </service>
 
         <service id="FastOrderPlugin\Core\Content\FastOrder\FastOrderDefinition">
             <tag name="shopware.entity.definition" entity="fast_order" />
         </service>
 
-        <service id="FastOrderPlugin\Service\ProductRepository">
+        <service id="FastOrderPlugin\Service\ProductService">
             <argument type="service" id="product.repository"/>
         </service>
 

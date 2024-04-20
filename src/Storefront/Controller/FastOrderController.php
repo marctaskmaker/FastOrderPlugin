@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace FastOrderPlugin\Storefront\Controller;
 
-use FastOrderPlugin\Service\ProductRepository;
+use FastOrderPlugin\Service\ProductService;
 use Shopware\Core\Checkout\Cart\Cart;
 use Shopware\Core\Checkout\Cart\LineItem\LineItem;
 use Shopware\Core\Checkout\Cart\LineItemFactoryRegistry;
@@ -24,10 +24,13 @@ class FastOrderController extends StorefrontController
 
     private CartService $cartService;
 
-    public function __construct(LineItemFactoryRegistry $factory, CartService $cartService)
+    private ProductService $productService;
+
+    public function __construct(LineItemFactoryRegistry $factory, CartService $cartService, ProductService $productService)
     {
         $this->factory = $factory;
         $this->cartService = $cartService;
+        $this->productService = $productService;
     }
 
     #[Route(
@@ -79,8 +82,7 @@ class FastOrderController extends StorefrontController
 
         $search = $request->attributes->getAlnum('name');
 
-        $productService = new ProductRepository($this->container->get('product.repository'));
-        $products = $productService->searchAvailableProducts($context, $search);
+        $products = $this->productService->searchAvailableProducts($context, $search);
 
         $articles = [];
         foreach ($products as $product) {
@@ -116,20 +118,24 @@ class FastOrderController extends StorefrontController
     )]
     public function addToCart(Request $request, SalesChannelContext $salesContext, Context $context, Cart $cart): Response
     {
-        $fastOrderRepository = $this->container->get('fast_order.repository');
-
         $products = $request->get('products');
 
         $productNumbers = [];
         $productQuantities = [];
+        $fastOrderItems = [];
         foreach ($products as $product) {
-            if (! empty($product['number']) && ! empty($product['quantity'])) {
 
+            if (! empty($product['number']) && ! empty($product['quantity'])) {
                 $productNumber = $product['number'];
                 $productQuantity = intval($product['quantity']);
 
                 $productNumbers[] = $productNumber;
-                $productQuantities[$productNumber] = $productQuantity;
+
+                if (isset($productQuantities[$productNumber])) {
+                    $productQuantities[$productNumber] += $productQuantity;
+                } else {
+                    $productQuantities[$productNumber] = $productQuantity;
+                }
 
                 $session = $salesContext->getToken();
 
@@ -137,28 +143,38 @@ class FastOrderController extends StorefrontController
                     ->getCreatedAt()
                     ->format(Defaults::STORAGE_DATE_TIME_FORMAT);
 
-                $fastOrderItem = [
+                $fastOrderItems[] = [
                     'product' => $productNumber,
                     'quantity' => $productQuantity,
                     'session' => $session,
                     'created_at' => $currentDateTime,
                 ];
+            }
+        }
 
+        $productNumbers = array_unique($productNumbers);
+
+        $activeProductNumbers = $this->addProductsToCart($productNumbers, $productQuantities, $context, $salesContext, $cart);
+
+        $fastOrderRepository = $this->container->get('fast_order.repository');
+
+        foreach ($fastOrderItems as $fastOrderItem) {
+            if (in_array($fastOrderItem['product'], $activeProductNumbers)) {
                 $fastOrderRepository->create([$fastOrderItem], $context);
             }
         }
 
-        $this->addProductsToCart($productNumbers, $productQuantities, $context, $salesContext, $cart);
-
         return $this->redirectToRoute('frontend.checkout.cart.page');
     }
 
-    private function addProductsToCart(array $productNumbers, array $productQuantities, Context $context, SalesChannelContext $salesContext, Cart $cart)
+    private function addProductsToCart(array $productNumbers, array $productQuantities, Context $context, SalesChannelContext $salesContext, Cart $cart): array
     {
-        $productService = new ProductRepository($this->container->get('product.repository'));
-        $products = $productService->getProductsByProductNumbers($context, $productNumbers);
+        $products = $this->productService->getProductsByProductNumbers($context, $productNumbers);
 
+        $activeProductNumbers = [];
         foreach ($products as $product) {
+
+            $activeProductNumbers[] = $product->getProductNumber();
 
             $lineItem = $this->factory->create([
                 'type' => LineItem::PRODUCT_LINE_ITEM_TYPE,
@@ -169,5 +185,7 @@ class FastOrderController extends StorefrontController
 
             $this->cartService->add($cart, $lineItem, $salesContext);
         }
+
+        return $activeProductNumbers;
     }
 }
