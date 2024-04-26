@@ -125,7 +125,7 @@ class FastOrderController extends StorefrontController
         $fastOrderItems = [];
         foreach ($products as $product) {
 
-            if (! empty($product['number']) && ! empty($product['quantity'])) {
+            if ($product['number'] && $product['quantity']) {
                 $productNumber = $product['number'];
                 $productQuantity = intval($product['quantity']);
 
